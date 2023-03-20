@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.Windows;
@@ -30,11 +31,17 @@ public class PlayerMouseMovementCC : MonoBehaviour
     public Transform cameraTurn;
     float cameraX;
 
+    public GameManager gameManager;
+
     //green
     public GameObject Panel1;
     public GameObject Panel2;
 
     public bool start;
+
+    public TextMeshProUGUI coinNumText;
+    int coinNum;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +58,8 @@ public class PlayerMouseMovementCC : MonoBehaviour
         cameraX = 0;
 
         start = true;
+
+        coinNum = 0;
     }
 
     // Update is called once per frame
@@ -142,22 +151,21 @@ public class PlayerMouseMovementCC : MonoBehaviour
     }
 
 
-
-    //void PlayerMove()
-    //{
-    //    xAxis = Input.GetAxis("Mouse X") * moveSpeed * Time.deltaTime;
-    //    zAxis = Input.GetAxis("Mouse Y") * moveSpeed * Time.deltaTime;
-    //    //     (0,0,1)                          (1,0,0)
-    //    v = transform.forward * zAxis + transform.right * xAxis;
-    //    cc.Move(v * moveSpeed * Time.deltaTime);
-    //}
-
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer==LayerMask.NameToLayer("Volcano"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Volcano") && gameManager.GetComponent<GameManager>().thirdPanelStart == false)
         {
             print("Got burn");
 
         }
+        if (other.gameObject.tag == "Coin" && gameManager.GetComponent<GameManager>().thirdPanelStart == true)
+        {
+            print("got a coin");
+            coinNum++;
+            coinNumText.text = coinNum.ToString();
+            Destroy(other.gameObject);
+        }
+
     }
+
 }

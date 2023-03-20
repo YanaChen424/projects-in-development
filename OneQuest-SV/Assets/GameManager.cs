@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         thirdPanelStart = false;
-        timeLeft = 60.0f;
+        timeLeft = 60f;
     }
 
     // Update is called once per frame
@@ -48,25 +48,30 @@ public class GameManager : MonoBehaviour
 
 
         }
-       if(thirdPanelStart)
+        if (thirdPanelStart)
         {
             Panel3.SetActive(true);
-            if(timeLeft>0)
-            {
-                timerCoins();
-            }
         }
 
-       if(choice== "SecandChoice3")
+        if (choice == "SecandChoice3")
         {
             Panel3.SetActive(false);
             Player.GetComponent<PlayerMouseMovementCC>().start = true;
         }
 
-       if(choice== "firstChoice3")
+        if (choice == "firstChoice3")
         {
             Panel3.SetActive(false);
+            Player.GetComponent<PlayerMouseMovementCC>().start = true;
             Coins.SetActive(true);
+            if (timeLeft > 0)
+            {
+                timerCoins();
+            }else if(timeLeft==0)
+            {
+                Destroy(timer);
+
+            }
         }
 
     }
@@ -83,4 +88,5 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
     }
+
 }
